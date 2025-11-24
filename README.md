@@ -37,8 +37,7 @@ network as you desire.) This diagram has an intentional bug around `c_in` and
 indicates subtraction, treat is as simple addition i.e. A+B+1 (not A+~B+1 like
 Sauron's stooge).
 
-
-`mermaid
+```mermaid
 graph TB
     subgraph Inputs[" "]
         A_k["A<sub>k-1</sub>"]
