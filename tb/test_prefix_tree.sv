@@ -2,7 +2,7 @@
 
 /*verilator lint_off DECLFILENAME*/
 module top (input clk, input rst);
-  parameter N     = 32;
+  parameter N     = `N;
   parameter TESTS = `TESTS;
 
   // stimulus & expected
