@@ -6,11 +6,7 @@ REV=$2
 
 # Determine the directory pattern to search for based on DUT and M
 # Using POSIX 'test' command '[ ... ]' for maximum compatibility
-if [ "$DUT" = "rca" ]; then
-    PATTERN="output_files_$DUT"
-else
-    PATTERN="output_files_${REV}"
-fi
+PATTERN="output_files_${REV}"
 
 OUT_FILE="results/$REV.csv"
 

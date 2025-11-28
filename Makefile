@@ -12,17 +12,21 @@ VCD_FILE_STR ?= "test.vcd"
 ifeq ($(DUT),prefix_tree)
 	TEST_SV = tb/test_prefix_tree.sv
 	DUT_PARAMS = +define+N=$(N)
+	ARCH_PARAM_NAME := N
+	ARCH_PARAM_VAL  := $(N)
 else
 	# All adder variants use test_adder.sv
 	TEST_SV = tb/test_adder.sv
 	DUT_PARAMS = +define+W=$(W) +define+M=$(M)
+	ARCH_PARAM_NAME := M
+	ARCH_PARAM_VAL  := $(M)
 endif
 
 SRC = rtl/$(DUT).sv
 
-REV = $(DUT)_W$(W)_$(ARCH_PARAM_NAME)$(ARCH_PARAM_VAL)
+REV = $(DUT)_$(ARCH_PARAM_NAME)$(ARCH_PARAM_VAL)
 
-VFLAGS += -DTESTDIR=\"$(PWD)/data/\" -DTOP=$(TOP)
+VFLAGS += -Wno-SELRANGE -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -DTESTDIR=\"$(PWD)/data/\" -DTOP=$(TOP)
 _CFLAGS = -CFLAGS
 
 ifeq ($(VCD), 1)
@@ -57,14 +61,14 @@ compile:
 		$(DUT_PARAMS)
 	make -C $(SIM_DIR) -f Vtop.mk Vtop
 
-# make sim DUT=[rca_pipe|csa_pipe|naiveadder2048b|cleveradder2048b] M=[m] or make DUT=prefix_tree P=[p]
+# make sim DUT=[rca_pipe|csa_pipe|naiveadder2048b|cleveradder2048b] M=[m] or make DUT=prefix_tree N=[n]
 sim: compile
 	echo "Verilator Running Test for $(DUT)"
 	rm -f $(SIM_DIR)/log_$(REV).csv
 	cd $(SIM_DIR) && ./Vtop >> log_$(REV).csv
 	cat $(SIM_DIR)/log_$(REV).csv
 
-# make [synth|fit] DUT=[rca_pipe|csa_pipe|naiveadder2048b|cleveradder2048b] M=[m] or make [synth|fit] DUT=prefix_tree P=[p]
+# make [synth|fit] DUT=[rca_pipe|csa_pipe|naiveadder2048b|cleveradder2048b] M=[m] or make [synth|fit] DUT=prefix_tree N=[n]
 synth: setup
 	echo "Running Synth for $(DUT)."
 	rm -rf $(PROJ)/output_files_$(REV)
@@ -76,7 +80,7 @@ fit: setup
 	quartus_sh -t fpga/impl.tcl $(REV)
 	@echo "Done Fitter. Reports in $(PROJ)/output_files_$(REV)/"
 
-# make extract DUT=[rca_pipe|csa_pipe|naiveadder2048b|cleveradder2048b] M=[m] or make [synth|fit] DUT=prefix_tree P=[p]
+# make extract DUT=[rca_pipe|csa_pipe|naiveadder2048b|cleveradder2048b] M=[m] or make [synth|fit] DUT=prefix_tree N=[n]
 extract:
 	rm -f results/$(DUT).csv
 	@mkdir -p results

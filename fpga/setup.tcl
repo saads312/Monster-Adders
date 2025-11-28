@@ -39,6 +39,10 @@ set_global_assignment -name ORIGINAL_QUARTUS_VERSION 25.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "01:10:03  SEPTEMBER 21, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION "25.1.1 Pro Edition"
 set_global_assignment -name SYSTEMVERILOG_FILE [file normalize $SRC_V]
+if {$TOP eq "cleveradder2048b"} {
+    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "rca.sv"]]
+    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "prefix_tree.sv"]]
+} 
 set_global_assignment -name SDC_FILE [file normalize $SDC_FILE]
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
