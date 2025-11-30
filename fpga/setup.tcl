@@ -65,20 +65,23 @@ set_global_assignment -name TOP_LEVEL_ENTITY $TOP
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_instance_assignment -name VIRTUAL_PIN ON -to clk
 set_instance_assignment -name VIRTUAL_PIN ON -to rst
-set_instance_assignment -name VIRTUAL_PIN ON -to a
-set_instance_assignment -name VIRTUAL_PIN ON -to b
-set_instance_assignment -name VIRTUAL_PIN ON -to c_in
 set_instance_assignment -name VIRTUAL_PIN ON -to in_valid
-set_instance_assignment -name VIRTUAL_PIN ON -to c_out
-set_instance_assignment -name VIRTUAL_PIN ON -to sum
 set_instance_assignment -name VIRTUAL_PIN ON -to out_valid
 
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY $OUTDIR
 
 if {$TOP eq "prefix_tree"} {
+    set_instance_assignment -name VIRTUAL_PIN ON -to g
+    set_instance_assignment -name VIRTUAL_PIN ON -to p
+    set_instance_assignment -name VIRTUAL_PIN ON -to c
     set_parameter -name N $N
 } else {
-	set_parameter -name W $W
+    set_instance_assignment -name VIRTUAL_PIN ON -to a
+    set_instance_assignment -name VIRTUAL_PIN ON -to b
+    set_instance_assignment -name VIRTUAL_PIN ON -to c_in
+    set_instance_assignment -name VIRTUAL_PIN ON -to c_out
+    set_instance_assignment -name VIRTUAL_PIN ON -to sum
+    set_parameter -name W $W
     set_parameter -name M $M
 }
 
