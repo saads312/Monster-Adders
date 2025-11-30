@@ -42,7 +42,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE [file normalize $SRC_V]
 if {$TOP eq "cleveradder2048b"} {
     set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "rca.sv"]]
     set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "prefix_tree.sv"]]
-} 
+}
 set_global_assignment -name SDC_FILE [file normalize $SDC_FILE]
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
@@ -76,7 +76,7 @@ set_instance_assignment -name VIRTUAL_PIN ON -to out_valid
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY $OUTDIR
 
 if {$TOP eq "prefix_tree"} {
-    set_parameter -name P $N
+    set_parameter -name N $N
 } else {
 	set_parameter -name W $W
     set_parameter -name M $M
