@@ -23,6 +23,9 @@ else
 endif
 
 SRC = rtl/$(DUT).sv
+ifneq ($(filter naiveadder2048b cleveradder2048b,$(DUT)),)
+        SRC += csa_pipe.sv prefix_tree.sv
+endif
 
 REV = $(DUT)_$(ARCH_PARAM_NAME)$(ARCH_PARAM_VAL)
 
