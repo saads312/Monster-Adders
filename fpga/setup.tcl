@@ -22,19 +22,6 @@ if {$TOP eq "prefix_tree"} {
     set N 0
 }
 
-if { $TOP eq "naiveadder2048b" || $TOP eq "cleveradder2048b" } {
-    # Define paths to the helper modules
-    set CSA_PIPE_V    [file join $ROOT rtl csa_pipe.sv]
-    set PREFIX_TREE_V [file join $ROOT rtl prefix_tree.sv]
-    set RCA           [file join $ROOT rtl rca.sv]
-
-    # Add them to the Quartus project
-    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize $CSA_PIPE_V]
-    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize $PREFIX_TREE_V]
-    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize $RCA]
-
-}
-
 set SRC_V     [file join $ROOT rtl $TOP.sv]
 set SDC_FILE  [file join $ROOT adder.sdc]
 set OUTDIR 	  "output_files_$REV"
@@ -55,6 +42,9 @@ set_global_assignment -name SYSTEMVERILOG_FILE [file normalize $SRC_V]
 if {$TOP eq "cleveradder2048b"} {
     set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "rca.sv"]]
     set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "prefix_tree.sv"]]
+}
+if {$TOP eq "naiveadder2048b"} {
+    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "csa_pipe.sv"]]
 }
 set_global_assignment -name SDC_FILE [file normalize $SDC_FILE]
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
@@ -101,3 +91,4 @@ if {$TOP eq "prefix_tree"} {
 # Commit assignments
 export_assignments
 project_close
+
