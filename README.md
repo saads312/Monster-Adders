@@ -175,9 +175,9 @@ graph TB
    to use retiming and hyperflex timing registers).  For the naive pipelined
    adder, Quartus CAD runs will be slow, so think before submitting runs!
 2. **Instructions**:
-`make data DUT={naiveadder2048b} W={} TESTS={}`
-`make sim DUT={naiveadder2048b} W={} M={}`
-`make fit DUT={naiveadder2048b} W={} M={}`
+- `make data DUT={naiveadder2048b} W={} TESTS={}`
+- `make sim DUT={naiveadder2048b} W={} M={}`
+- `make fit DUT={naiveadder2048b} W={} M={}`
 3. Finally, in `results/winner_naive.csv` store the best solution you can
    come up with. To avoid sweeping during grading, make sure the module params
    in the RTL are set to correct best values you want.
@@ -195,32 +195,32 @@ graph TB
    for the 2048-b adder to match the choice of parameter `M` for the
    ripple-carry adder!
 2. **Instructions**:
-`make data DUT={prefix_tree} N={} TESTS={}`
-`make sim DUT={prefix_tree} N={}`
-`make fit DUT={prefix_tree} N={}`
+- `make data DUT={prefix_tree} N={} TESTS={}`
+- `make sim DUT={prefix_tree} N={}`
+- `make fit DUT={prefix_tree} N={}`
 
 ## Clever 2048-bit adder
 
-1. **Verilog**: Write the wide 2048-bit adder `rtl/cleveraddr2048b.sv`. You
+1. **Verilog**: Write the wide 2048-bit adder `rtl/cleveradder2048b.sv`. You
    have to atleast implement the Type-2 approach from the Monster adders paper
    but you can try others if you have time and if they are better? You will use
-   the `rtl/prefix_tree.sv` and `rtl/rca_pipe.sv` in the design of this adder.
+   the `rtl/prefix_tree.sv` and `rtl/rca.sv` in the design of this adder.
    You must also decide how and where to add pipeline registers for maximum
    frequency. Again, retiming and hyperflex registers are fair game.
 2. **Instructions**:
-`make data DUT={cleveradder2048b} W=<> TESTS=<>`
-`make sim DUT={cleveradder2048b} W=<> M=<>`
-`make fit DUT={cleveradder2048b} W=<> M=<>`
+- `make data DUT={cleveradder2048b} W=<> TESTS=<>`
+- `make sim DUT={cleveradder2048b} W=<> M=<>`
+- `make fit DUT={cleveradder2048b} W=<> M=<>`
 3. Finally, in `results/winner_clever.csv` store the best solution you can
    come up with. To avoid sweeping during grading, make sure the module params
    in the RTL are set to correct best values you want. You can parameterize a
-   search over `M` (chunk size of ripple carry adder), which implies `P` (size
+   search over `M` (chunk size of ripple carry adder), which implies `N` (size
    of prefix tree).
 
 
 ### Verilog reuse and overall behavior
 
-You can reuse your Lab3 solutions for the {rca_pipe|csa_pipe}.sv adder. You may explore either for the naive adder but chances are CSA might be best? For the clever adder, you must use the `rca_pipe.sv` for the first stage of addition, followed by `prefix_tree.sv` for summing up carries, and then another `rca_pipe.sv` for the last staeg of addition.
+You can reuse your Lab3 solutions for the {rca_pipe|csa_pipe}.sv adder. You may explore either for the naive adder but chances are CSA might be best? For the clever adder, you must use the `rca_pipe.sv` for the first stage of addition, followed by `prefix_tree.sv` for summing up carries, and then another `rca_pipe.sv` for the last stage of addition.
 
 Remember to pipeline both inputs and outputs + make the latency flexible with
 ports `in_valid` and `out_valid` where the testbench will supply the `in_valid`
@@ -228,11 +228,11 @@ and expect correct output data aligned with `out_valid`.
 
 Command-line review
 ```
- $ make data DUT={naive2048badder|clever2048badder} W={..} M={..}    # runs data generation for testing
- $ make sim DUT={naive2048badder|clever2048badder} W={..} M={..}     # runs Altera-Questasim simulation
- $ make synth DUT={naive2048badder|clever2048badder} W={..} M={..}   # runs Altera FPGA synthesis
- $ make fit DUT={naive2048badder|clever2048badder} W={..} M={..}     # runs Altera FPGA fitting (implementation)
- $ make extract DUT={naive2048badder|clever2048badder} W={..} M={..} # extracts metrics
+ $ make data DUT={naiveadder2048b|cleveradder2048b} W={..} M={..}    # runs data generation for testing
+ $ make sim DUT={naiveadder2048b|cleveradder2048b} W={..} M={..}     # runs Altera-Questasim simulation
+ $ make synth DUT={naiveadder2048b|cleveradder2048b} W={..} M={..}   # runs Altera FPGA synthesis
+ $ make fit DUT={naiveadder2048b|cleveradder2048b} W={..} M={..}     # runs Altera FPGA fitting (implementation)
+ $ make extract DUT={naiveadder2048b|cleveradder2048b} W={..} M={..} # extracts metrics
 ```
 
 To enable autograding, please create `{naive|clever}.sh` scripts to run your
