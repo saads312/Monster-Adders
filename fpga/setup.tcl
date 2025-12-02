@@ -22,7 +22,7 @@ if {$TOP eq "prefix_tree"} {
     set N 0
 }
 
-f { $TOP eq "naiveadder2048b" || $TOP eq "cleveradder2048b" } {
+if { $TOP eq "naiveadder2048b" || $TOP eq "cleveradder2048b" } {
     # Define paths to the helper modules
     set CSA_PIPE_V    [file join $ROOT rtl csa_pipe.sv]
     set PREFIX_TREE_V [file join $ROOT rtl prefix_tree.sv]
