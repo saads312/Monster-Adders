@@ -5,6 +5,8 @@ DUT="naiveadder2048b"
 W_VAL=2048
 WINNER_FILE="results/winner_naive.csv"
 
+source env.sh
+
 ./sweep_naive.sh $M_BEST
 
 SOURCE_CSV="sweep_results_${DUT}/${DUT}_W${W_VAL}_M${M_BEST}.csv"
