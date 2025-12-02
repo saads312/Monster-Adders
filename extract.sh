@@ -6,17 +6,13 @@ REV=$2
 
 # Determine the directory pattern to search for based on DUT and M
 # Using POSIX 'test' command '[ ... ]' for maximum compatibility
-if [ "$DUT" = "rca" ]; then
-    PATTERN="output_files_$DUT"
-else
-    PATTERN="output_files_${REV}"
-fi
+PATTERN="output_files_${REV}"
 
 OUT_FILE="results/$REV.csv"
 
 echo "$PATTERN"
 
-echo "M,Fmax_MHz,ALMs_used_total,ALMs_LUT_FF,ALMs_LUT_only,ALMs_FF_only,ALMs_Memory,ALMs_VIRTUAL_IO,ALUT_route_through,Total_LABs,Memory_LABs,Hyper_REG" > "$OUT_FILE"
+echo "M,Fmax_MHz,ALMs_used_total,ALMs_LUT_FF,ALMs_LUT_only,ALMs_FF_only,ALMs_Memory,ALMs_VIRTUAL_IO,ALUT_route_through,Total_LABs,Memory_LABs,Hyper_REG,M20K_RAMs" > "$OUT_FILE"
 
 # Use 'find' to robustly locate all matching directories and pipe the results to a loop
 find ./impl -type d -name "$PATTERN" | while read d; do
@@ -111,6 +107,17 @@ find ./impl -type d -name "$PATTERN" | while read d; do
       }' "$FIT" 2>/dev/null
   )
 
+  # M20K RAMs    ; 620 ; ;
+  M20K_RAMS=$(
+    awk -F';' 'BEGIN{IGNORECASE=1} \
+      /M20K blocks  /{
+        split($3, a, "/");
+        gsub(/[^0-9]/, "", a[1]);
+        print a[1];
+        exit
+      }' "$FIT" 2>/dev/null
+  )
+
   HYPER_REG=$(
     awk -F';' 'BEGIN{IGNORECASE=1} \
       /Hyper-Registers/{
@@ -121,6 +128,6 @@ find ./impl -type d -name "$PATTERN" | while read d; do
   )
 
   # Append the extracted data to the CSV file
-  echo "${M_VAL:-NA},${FMAX:-NA},${ALM_TOTAL:-NA},${ALM_LUT_FF:-NA},${ALM_LUT_ONLY:-NA},${ALM_FF_ONLY:-NA},${ALM_MEM:-0},${ALM_VIRTUAL_IO:-NA},${ALUT_ROUTE:-NA},${LAB_TOTAL:-NA},${MEM_LABS:-NA},${HYPER_REG:-NA}" >> "$OUT_FILE"
+  echo "${M_VAL:-NA},${FMAX:-NA},${ALM_TOTAL:-NA},${ALM_LUT_FF:-NA},${ALM_LUT_ONLY:-NA},${ALM_FF_ONLY:-NA},${ALM_MEM:-0},${ALM_VIRTUAL_IO:-NA},${ALUT_ROUTE:-NA},${LAB_TOTAL:-NA},${MEM_LABS:-NA},${HYPER_REG:-NA},${M20K_RAMS:-NA}" >> "$OUT_FILE"
 
 done

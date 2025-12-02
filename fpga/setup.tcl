@@ -39,6 +39,10 @@ set_global_assignment -name ORIGINAL_QUARTUS_VERSION 25.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "01:10:03  SEPTEMBER 21, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION "25.1.1 Pro Edition"
 set_global_assignment -name SYSTEMVERILOG_FILE [file normalize $SRC_V]
+if {$TOP eq "cleveradder2048b"} {
+    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "rca.sv"]]
+    set_global_assignment -name SYSTEMVERILOG_FILE [file normalize [file join $ROOT rtl "prefix_tree.sv"]]
+}
 set_global_assignment -name SDC_FILE [file normalize $SDC_FILE]
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
@@ -61,20 +65,23 @@ set_global_assignment -name TOP_LEVEL_ENTITY $TOP
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_instance_assignment -name VIRTUAL_PIN ON -to clk
 set_instance_assignment -name VIRTUAL_PIN ON -to rst
-set_instance_assignment -name VIRTUAL_PIN ON -to a
-set_instance_assignment -name VIRTUAL_PIN ON -to b
-set_instance_assignment -name VIRTUAL_PIN ON -to c_in
 set_instance_assignment -name VIRTUAL_PIN ON -to in_valid
-set_instance_assignment -name VIRTUAL_PIN ON -to c_out
-set_instance_assignment -name VIRTUAL_PIN ON -to sum
 set_instance_assignment -name VIRTUAL_PIN ON -to out_valid
 
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY $OUTDIR
 
 if {$TOP eq "prefix_tree"} {
-    set_parameter -name P $N
+    set_instance_assignment -name VIRTUAL_PIN ON -to g
+    set_instance_assignment -name VIRTUAL_PIN ON -to p
+    set_instance_assignment -name VIRTUAL_PIN ON -to c
+    set_parameter -name N $N
 } else {
-	set_parameter -name W $W
+    set_instance_assignment -name VIRTUAL_PIN ON -to a
+    set_instance_assignment -name VIRTUAL_PIN ON -to b
+    set_instance_assignment -name VIRTUAL_PIN ON -to c_in
+    set_instance_assignment -name VIRTUAL_PIN ON -to c_out
+    set_instance_assignment -name VIRTUAL_PIN ON -to sum
+    set_parameter -name W $W
     set_parameter -name M $M
 }
 
