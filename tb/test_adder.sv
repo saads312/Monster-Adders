@@ -133,8 +133,10 @@ module top (input clk, input rst);
 
             // Show per-chunk comparison
             for (int i = 0; i < N; i++) begin
-              logic [M-1:0] got_chunk = s[i*M +: M];
-              logic [M-1:0] exp_chunk = exp.s[i*M +: M];
+              logic [M-1:0] got_chunk;
+              logic [M-1:0] exp_chunk;
+	      got_chunk = s[i*M +: M];
+	      exp_chunk = exp.s[i*M +: M];
               if (got_chunk !== exp_chunk) begin
                 $display("    Chunk[%0d]: got=0x%h, expected=0x%h", i, got_chunk, exp_chunk);
               end
