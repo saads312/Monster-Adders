@@ -5,7 +5,8 @@ N ?= 2
 
 PROJ 	:= impl
 TEST_FILE   = tb/test.cpp
-SIM_DIR = /tmp/$(USER)/sim/
+GROUP := $(shell basename $(CURDIR) | cut -d'-' -f1)
+SIM_DIR = /tmp/$(GROUP)/sim
 VCD ?= 0
 VCD_FILE_STR ?= "test.vcd"
 
@@ -23,9 +24,6 @@ else
 endif
 
 SRC = rtl/$(DUT).sv
-ifneq ($(filter naiveadder2048b cleveradder2048b,$(DUT)),)
-        SRC += csa_pipe.sv prefix_tree.sv
-endif
 
 REV = $(DUT)_$(ARCH_PARAM_NAME)$(ARCH_PARAM_VAL)
 
@@ -89,6 +87,10 @@ extract:
 	@mkdir -p results
 	@./extract.sh $(DUT) $(REV)
 	@echo "Extract metrics to results/$(REV).csv successfully"
+
+extract_sim:
+	@grade=$$(grep "GRADE:" $(SIM_DIR)/log_$(REV).csv | cut -d':' -f2 | tr -      d '[:space:]'); \
+	if [ "$$grade" = "1" ]; then echo PASS; else echo FAIL; fi
 
 .PHONY: clean data
 
