@@ -1,33 +1,4 @@
-# Lab 4  -- High-Freqency 2048-bit "Monster" Adders on FPGAs
-
-Deadline: 2nd December 2025 23:59
-
-## Getting started
-First, clone the git repository onto your home directory on the any lab
-server {uwing|razorcrest|tantive4|haulcraft}.
-
-```
-$ mkdir -p $HOME/ece722-f25/labs
-$ cd $HOME/ece722-f25/labs
-$ git clone ist-git@git.uwaterloo.ca:ece722-f25/labs/grp_24-lab4.git
-$ cd grp_24-lab4
-```
-
-Next, on the server, on the default `zsh` shell, setup the paths below. If you
-want to come back to your work, please resume from this step.
-```
- $ source env.sh
-```
-
-The objective of this lab are the following:
-1. The first objective is to to implement a 2048-bit adder using any technique
-   from Lab3. Focus on high performance, i.e. maximizing frequency (Fmax).
-2. The second objective is to implement this adder using the prefix adder
-   optimization. Read the [Monster
-   Adders](https://www.bogdan-pasca.org/resources/publications/2019-FCCM-MonsterAdders.pdf)
-   paper by Martin Langhammer! The goal again is to achieve high frequency with
-   low ALM utilization and somewhat stable Quartus runtime. Specifically look at
-   the [Type-2](./img/type-2-adder.png) adder.
+# High-Freqency 2048-bit "Monster" Adders on FPGAs
 
 A high-level view of the Type-2 adder (dotted links are M-bit chunks, Thick
 lines are 1-b signals, 0|1 are carry inputs, Prefix Network shown as a ripple
