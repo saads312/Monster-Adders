@@ -180,7 +180,3 @@ Timing constraints are specified in `adder.sdc` for synthesis.
 ## References
 
 This project implements techniques from the "monster adders" literature, which explores efficient wide-integer addition on FPGAs through chunking and prefix networks.
-
-## License
-
-Academic project - check with original author for usage rights.
