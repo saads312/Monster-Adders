@@ -8,7 +8,7 @@ Adding very wide integers (2048 bits) at high frequencies on FPGAs presents sign
 
 The project implements and compares two solutions:
 
-1. **Naive Adder**: A straightforward pipelined carry-save adder (CSA) design that exploits LAB carry chains
+1. **Naive Adder**: A straightforward pipelined carry-select adder (CSA) design that exploits LAB carry chains
 2. **Clever Adder**: An optimized Type-2 architecture using parallel prefix trees for faster carry computation, minimizing reliance on long carry chains
 
 Both designs are fully parameterized and include comprehensive testbenches and FPGA synthesis flows specifically tuned for Agilex 5's ALM (Adaptive Logic Module) and LAB structures.
@@ -37,7 +37,7 @@ This approach achieves higher Fmax by replacing long ripple-carry chains with a 
 
 ### Naive Adder
 
-Uses a parameterized carry-save adder with pipelining for comparison baseline. This design makes direct use of Agilex 5's efficient LAB carry chain implementation for ripple-carry propagation within chunks.
+Uses a parameterized carry-select adder with pipelining for comparison baseline. This design makes direct use of Agilex 5's efficient LAB carry chain implementation for ripple-carry propagation within chunks.
 
 ## Project Structure
 
@@ -48,7 +48,7 @@ Monster-Adders/
 │   ├── cleveradder2048b.sv # Type-2 prefix tree adder
 │   ├── prefix_tree.sv      # Kogge-Stone prefix network
 │   ├── rca.sv              # Ripple-carry adder (building block)
-│   └── csa_pipe.sv         # Carry-save adder (building block)
+│   └── csa_pipe.sv         # Carry-select adder (building block)
 ├── tb/                     # Testbench files
 │   ├── test_adder.sv       # SystemVerilog testbench for adders
 │   ├── test_prefix_tree.sv # Testbench for prefix tree
